@@ -36,3 +36,12 @@ repos:
         args:
           - --max-line-length=88
           - --ignore=E501,W503
+
+  - repo: https://github.com/aquasecurity/trivy
+    rev: v0.20.2
+    hooks:
+      - id: trivy-scan
+        name: Trivy Security Scan
+        entry: ./scripts/security_scan.sh
+        language: system
+        files: .*

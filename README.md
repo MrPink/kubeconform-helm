@@ -297,6 +297,35 @@ repository:
 pre-commit run --all-files
 ```
 
+## Security Scan
+
+### Manual Scan
+
+To run security scans manually using Trivy, follow these steps:
+
+1. Install Trivy by following the instructions on the [Trivy GitHub page](https://github.com/aquasecurity/trivy).
+2. Run the security scan using the following command:
+
+```shell
+./scripts/security_scan.sh
+```
+
+### Pre-commit Hook
+
+To configure the pre-commit hook for security scans, add the following entry to your `.pre-commit-config.yaml` file:
+
+```yaml
+repos:
+  - repo: https://github.com/aquasecurity/trivy
+    rev: v0.20.2
+    hooks:
+      - id: trivy-scan
+        name: Trivy Security Scan
+        entry: ./scripts/security_scan.sh
+        language: system
+        files: .*
+```
+
 ## License
 
 MIT
