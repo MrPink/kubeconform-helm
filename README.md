@@ -326,6 +326,55 @@ repos:
         files: .*
 ```
 
+## Debugging Pre-commit Hook
+
+### Debugging Statements
+
+To debug the pre-commit hook and print out its information, you can add debugging statements to the `scripts/pre-commit.py` file. This will help you understand which files are being passed to the hook and the values of important variables and arguments.
+
+1. Open the `scripts/pre-commit.py` file in your preferred text editor.
+2. Add the following debugging statements at the beginning of the `main` function to print the list of files being passed to the pre-commit hook:
+
+```python
+def main():
+    # Parse args
+    args = pw.parse_args(
+        add_chart=False,
+        add_files=True,
+        add_path=True,
+        add_incl_excl=True,
+        add_path_sub=True,
+    )
+
+    # Debugging statement to print the list of files being passed to the pre-commit hook
+    print("Files passed to pre-commit hook:", args["wrapper"].FILES)
+
+    # We gonna change directory into the chart directory so we add it as local
+    # path for helm dependency build and helm template
+    args["helm_build"].append(".")
+    args["helm_tmpl"].append(".")
+```
+
+3. Add the following debugging statements to print the values of important variables and arguments:
+
+```python
+    # Ger logger
+    log = pw.get_logger(
+        args["wrapper"].debug,
+    )
+
+    # Debugging statements to print the values of important variables and arguments
+    print("Charts path:", args["wrapper"].charts_path)
+    print("Include charts:", args["wrapper"].include_charts)
+    print("Exclude charts:", args["wrapper"].exclude_charts)
+    print("Path substitution pattern:", args["wrapper"].path_sub_pattern)
+    print("Path substitution separator:", args["wrapper"].path_sub_separator)
+```
+
+4. Save the changes to the `scripts/pre-commit.py` file.
+
+Now, when you run the pre-commit hook, it will print out the list of files being passed to the hook and the values of important variables and arguments, helping you debug any issues.
+
 ## License
 
 MIT
